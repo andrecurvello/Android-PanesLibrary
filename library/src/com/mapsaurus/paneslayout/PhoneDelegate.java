@@ -1,26 +1,22 @@
 package com.mapsaurus.paneslayout;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-
-import com.actionbarsherlock.app.ActionBar;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
+import android.support.v4.app.FragmentTransaction;
 import com.actionbarsherlock.view.MenuItem;
 import com.mapsaurus.panelayout.R;
 import com.slidingmenu.lib.SlidingMenu;
 
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
-import android.util.Log;
+import java.lang.ref.WeakReference;
 
-public class PhoneDelegate extends ActivityDelegate implements 
-SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListener {
+public class PhoneDelegate extends ActivityDelegate implements
+		SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListener {
 
 	private SlidingMenu menu;
+	private int mEnter = android.R.anim.fade_in, mExit = android.R.anim.fade_out,
+			mEnterPop = android.R.anim.fade_in, mExitPop = android.R.anim.fade_out;
 
 	public PhoneDelegate(PanesActivity a) {
 		super(a);
@@ -105,10 +101,10 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home:
-			if (!menu.isMenuShowing())
-				menu.showMenu();
-			return true;
+			case android.R.id.home:
+				if (!menu.isMenuShowing())
+					menu.showMenu();
+				return true;
 		}
 		return false;
 	}
@@ -128,7 +124,7 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 	 * we need to retrieve a fragment, that fragment has not yet been added.
 	 */
 	private WeakReference<Fragment> wMenuFragment = new WeakReference<Fragment>(null);
-	
+
 	@Override
 	public void addFragment(Fragment prevFragment, Fragment newFragment) {
 		boolean addToBackStack = false;
@@ -143,8 +139,8 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 		if (newFragment != null) {
 			FragmentManager fm = getSupportFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
-			ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
-					android.R.anim.fade_in, android.R.anim.fade_out);
+			if (mEnter != -1 && mExit != -1 && mEnterPop != -1 && mExitPop != -1)
+				ft.setCustomAnimations(mEnter, mExit, mEnterPop, mExitPop);
 			ft.replace(R.id.content_frame, newFragment);
 			if (addToBackStack) ft.addToBackStack(newFragment.toString());
 			ft.commit();
@@ -156,7 +152,7 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 	@Override
 	public void clearFragments() {
 		FragmentManager fm = getSupportFragmentManager();
-		for(int i = 0; i < fm.getBackStackEntryCount(); i ++)    
+		for(int i = 0; i < fm.getBackStackEntryCount(); i ++)
 			fm.popBackStack();
 	}
 
@@ -166,7 +162,7 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.replace(R.id.menu_frame, f);
 		ft.commit();
-		
+
 		wMenuFragment = new WeakReference<Fragment>(f);
 
 		updateFragment(f);
@@ -190,6 +186,13 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 	@Override
 	public void showMenu() {
 		menu.showMenu(true);
+	}
+
+	public void setTransitions(int enter, int exit, int enterPop, int exitPop) {
+		mEnter = enter;
+		mExit = exit;
+		mEnterPop = enterPop;
+		mExitPop = exitPop;
 	}
 
 }

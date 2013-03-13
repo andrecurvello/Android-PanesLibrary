@@ -1,6 +1,5 @@
 package com.mapsaurus.paneslayout;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -141,4 +140,18 @@ public abstract class PanesActivity extends SherlockFragmentActivity implements 
 		if (mDelegate instanceof TabletDelegate)
 			((TabletDelegate) mDelegate).setPaneSizer(sizer);
 	}
+
+	/**
+	 * Set custom transitions for Fragment additions and removals on phone devices. Enter
+	 * a value of -1 to disable that transition.
+	 * @param enter resource id for the enter transition, or -1
+	 * @param exit resource id for the exit transition, or -1
+	 * @param enterPop resource id for the enter pop transition, or -1
+	 * @param exitPop resource id for the exit pop transition, or -1
+	 */
+	public void setTransitions(int enter, int exit, int enterPop, int exitPop) {
+		if (mDelegate instanceof PhoneDelegate)
+			((PhoneDelegate) mDelegate).setTransitions(enter, exit, enterPop, exitPop);
+	}
+
 }

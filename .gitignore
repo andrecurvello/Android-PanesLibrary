@@ -2,6 +2,22 @@
 *#*#
 *.#*
 *~
+
+# Generated files
+
 *.class
 */bin/*
 */bin/*
+*/gen/*
+
+# Project files
+
+*.iml
+
+example/gen/com/mapsaurus/panesexample/R.java
+
+library/gen/com/mapsaurus/panelayout/R.java
+
+example/gen/com/mapsaurus/panesexample/R.java
+
+library/gen/com/mapsaurus/panelayout/R.java
