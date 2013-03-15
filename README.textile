@@ -29,6 +29,8 @@ Have your activity extend PanesActivity. Then, add fragments to the activity usi
 You also need to provide a PaneSizer. This object allows you to programatically set the width of each pane based on the type of Fragment/View you want to place inside the pane.
 
 You should also implement updateFragment(...). This is run whenever a fragment is added (even on activity restarts).
+
+Should you wish to override the tablet layout and use a phone layout instead, copy and paste this into a resource file (typically bools.xml): `<bool name="forcePhone">true</bool>`
  
 Fragments are added onto a stack where the 0th fragment is the menu. Here's an example of what this means:
 
