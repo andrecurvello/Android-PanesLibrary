@@ -30,7 +30,7 @@ You also need to provide a PaneSizer. This object allows you to programatically 
 
 You should also implement updateFragment(...). This is run whenever a fragment is added (even on activity restarts).
 
-Should you wish to override the tablet layout and use a phone layout instead, copy and paste this into a resource file (typically bools.xml): `<bool name="forcePhone">true</bool>`
+Should you wish to override the tablet layout and use a phone layout instead, copy and paste this into a resource file (typically bools.xml): <code><bool name="forcePhone">true</bool></code>
  
 Fragments are added onto a stack where the 0th fragment is the menu. Here's an example of what this means:
 
