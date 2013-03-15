@@ -3,9 +3,9 @@ package com.mapsaurus.paneslayout;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.mapsaurus.panelayout.R;
 import com.mapsaurus.paneslayout.PanesSizer.PaneSizer;
 
 public abstract class PanesActivity extends SherlockFragmentActivity implements FragmentLauncher{
@@ -22,12 +22,13 @@ public abstract class PanesActivity extends SherlockFragmentActivity implements 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		int screenSize = (getResources().getConfiguration().screenLayout
 				& Configuration.SCREENLAYOUT_SIZE_MASK);
+		boolean forcePhone = getResources().getBoolean(R.bool.forcePhone);
 
-		if (screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE ||
-				screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+		if ((screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE ||
+				screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE) && !forcePhone) {
 			mDelegate = new TabletDelegate(this);
 		} else {
 			mDelegate = new PhoneDelegate(this);

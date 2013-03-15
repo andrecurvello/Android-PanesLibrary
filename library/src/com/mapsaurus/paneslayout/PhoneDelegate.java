@@ -33,6 +33,9 @@ public class PhoneDelegate extends ActivityDelegate implements
 			setContentView(R.layout.content_frame);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+		// This improves performance with a SlidingMenu due to overdraw
+		getActivity().getWindow().setBackgroundDrawable(null);
+
 		// initialize sliding menu
 		menu = new SlidingMenu(getActivity());
 		menu.setMode(SlidingMenu.LEFT);
